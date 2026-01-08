@@ -1,4 +1,4 @@
-<!doctype html
+<!doctype html>
 <html lang="es" class="h-full">
  <head>
   <meta charset="UTF-8">
@@ -10,6 +10,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet">
   <style>
+    /* --- Protección básica contra selección/copiar --- */
+    html, body, .certificate, .certificate * {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      -webkit-touch-callout: none !important;
+    }
+
     body {
       box-sizing: border-box;
     }
@@ -21,6 +30,7 @@
     .certificate {
       transform-style: preserve-3d;
       transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+      margin: 0 auto;
     }
     
     .certificate:hover {
@@ -156,29 +166,66 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Ajustes para pantallas pequeñas: reduce tipografías y tamaños para ganar espacio */
-    @media (max-width: 480px) {
+    /* Layout por defecto (escritorio) */
+    .certificate {
+      width: 100%;
+      max-width: 900px;
+    }
+    .bg-gradient-to-br {
+      padding: 3rem; /* valor base para desktop */
+    }
+
+    /* Ajustes para pantallas pequeñas: ocupar casi todo el ancho y aumentar textos */
+    @media (max-width: 640px) {
       .certificate {
-        transform-origin: center center;
+        /* casi todo el ancho del viewport, con un pequeño margen lateral */
+        width: 96vw;
+        max-width: 96vw;
+        box-sizing: border-box;
       }
+
+      /* Reducir padding interior pero mantener sensación de grandeza */
+      .bg-gradient-to-br {
+        padding: 1.25rem; /* menos padding para que el contenido tenga más espacio visible */
+      }
+
+      /* Titular: escalable con viewport */
       #certificate-title {
-        font-size: 1.25rem; /* reduce título */
+        /* mínima 1.2rem, ideal 6.5vw, máxima 2.2rem */
+        font-size: clamp(1.2rem, 6.5vw, 2.2rem);
       }
+
+      /* Nombre del destinatario: grande y responsivo */
       #recipient-name {
-        font-size: 2.2rem; /* reduce nombre en móvil */
+        font-size: clamp(1.8rem, 12vw, 3.4rem); /* crece según ancho disponible */
+        line-height: 1.02;
       }
-      .certificate .content,
+
+      /* Mensaje principal: legible en móviles */
       #main-message {
-        font-size: 0.95rem;
+        font-size: clamp(0.95rem, 4.6vw, 1.25rem);
+        line-height: 1.3;
       }
-      /* Si usas imágenes o elementos grandes, escala el contenedor ligeramente */
-      .certificate {
-        max-width: 92vw;
-        max-height: 88vh;
+
+      /* From text y otros textos secundarios */
+      #from-text {
+        font-size: clamp(1rem, 4.6vw, 1.6rem);
+      }
+
+      /* Sello ligeramente más pequeño si hace falta */
+      .seal {
+        width: 82px;
+        height: 82px;
+      }
+
+      /* Asegura que las decoraciones no cubran contenido */
+      .ornament {
+        width: 56px;
+        height: 56px;
       }
     }
 
-    /* Transición más suave al soltar */
+    /* Opcional: transición más suave al soltar */
     .certificate.is-resetting {
       transition: transform 400ms cubic-bezier(.2,.9,.3,1), box-shadow 300ms ease-out;
     }
@@ -197,7 +244,7 @@
        <svg class="ornament top-4 right-4 w-24 h-24 rotate-90" viewbox="0 0 100 100"><path d="M0,0 Q50,20 50,50 Q20,50 0,0" fill="#d4af37" /><circle cx="15" cy="15" r="8" fill="#d4af37" /><circle cx="8" cy="8" r="4" fill="#d4af37" /></svg>
        <svg class="ornament bottom-4 left-4 w-24 h-24 -rotate-90" viewbox="0 0 100 100"><path d="M0,0 Q50,20 50,50 Q20,50 0,0" fill="#d4af37" /><circle cx="15" cy="15" r="8" fill="#d4af37" /><circle cx="8" cy="8" r="4" fill="#d4af37" /></svg>
        <svg class="ornament bottom-4 right-4 w-24 h-24 rotate-180" viewbox="0 0 100 100"><path d="M0,0 Q50,20 50,50 Q20,50 0,0" fill="#d4af37" /><circle cx="15" cy="15" r="8" fill="#d4af37" /><circle cx="8" cy="8" r="4" fill="#d4af37" /></svg>
-       <div class="ribbon"><span>2026</span></div>
+       <div class="ribbon"><span>2024</span></div>
        <div class="relative z-10 text-center">
         <div class="flex justify-center mb-4">
          <svg width="200" height="30" viewbox="0 0 200 30"><path d="M0,15 Q50,0 100,15 Q150,30 200,15" stroke="#d4af37" stroke-width="2" fill="none" /><circle cx="100" cy="15" r="5" fill="#d4af37"/></svg>
@@ -460,6 +507,64 @@
   setTimeout(initialExplosions, 500);
   setTimeout(startConfettiRain, 2000);
 })();
+  </script>
+
+  <!-- Protección adicional en JS: bloquea copiar/pegar/contextmenu/atajos comunes -->
+  <script>
+    (function(){
+      // Evita copiar via clipboard
+      document.addEventListener('copy', function(e){
+        e.preventDefault();
+        try {
+          if (e.clipboardData) {
+            e.clipboardData.setData('text/plain', '');
+          }
+        } catch (err) {}
+      }, false);
+
+      // Evita selección iniciada por teclado/ratón
+      document.addEventListener('selectstart', function(e){
+        e.preventDefault();
+      }, false);
+
+      // Evita arrastrar texto/imágenes
+      document.addEventListener('dragstart', function(e){
+        e.preventDefault();
+      }, false);
+
+      // Evita menú contextual (botón derecho)
+      document.addEventListener('contextmenu', function(e){
+        e.preventDefault();
+      }, false);
+
+      // Evita atajos comunes: Ctrl/Cmd + C, X, U, S, A (copiar, cortar, ver fuente, guardar, seleccionar todo)
+      document.addEventListener('keydown', function(e){
+        const key = (e.key || '').toLowerCase();
+        const ctrl = e.ctrlKey || e.metaKey;
+        const ctrlShift = (e.ctrlKey || e.metaKey) && e.shiftKey;
+
+        // Bloquear F12
+        if (e.key === 'F12') {
+          e.preventDefault();
+          return;
+        }
+
+        // Ctrl/Cmd + Shift + I / J / C (devtools)
+        if (ctrlShift && ['i','j','c'].includes(key)) {
+          e.preventDefault();
+          return;
+        }
+
+        // Ctrl/Cmd + [c,x,u,s,a]
+        if (ctrl && ['c','x','u','s','a'].includes(key)) {
+          e.preventDefault();
+          return;
+        }
+      }, false);
+
+      // Nota: medidas por cliente sólo dificultan (no impiden) copiar/inspeccionar el código.
+      // Usuarios avanzados pueden ver el HTML (view-source, devtools) o tomar capturas de pantalla.
+    })();
   </script>
  </body>
 </html>
