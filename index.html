@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="es" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificado de Felicitación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .certificate-wrapper {
+      perspective: 1000px;
+    }
+    
+    .certificate {
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    }
+    
+    .certificate:hover {
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      pointer-events: none;
+      z-index: 1000;
+      animation: confetti-fall linear forwards;
+    }
+    
+    @keyframes confetti-fall {
+      0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100%) rotate(720deg) scale(0.5);
+      }
+    }
+    
+    .confetti-explosion {
+      animation: confetti-explode ease-out forwards;
+    }
+    
+    @keyframes confetti-explode {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg) scale(0);
+      }
+      20% {
+        opacity: 1;
+        transform: translate(var(--tx), var(--ty)) rotate(180deg) scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(var(--tx) * 1.5), calc(var(--ty) * 1.5 + 200px)) rotate(720deg) scale(0.3);
+      }
+    }
+    
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      animation: sparkle-pulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes sparkle-pulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    
+    .golden-border {
+      background: linear-gradient(135deg, #d4af37 0%, #f9e077 25%, #d4af37 50%, #f9e077 75%, #d4af37 100%);
+      background-size: 200% 200%;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
+    .ribbon {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      overflow: hidden;
+      top: -10px;
+      right: -10px;
+    }
+    
+    .ribbon span {
+      position: absolute;
+      display: block;
+      width: 180px;
+      padding: 10px 0;
+      background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+      box-shadow: 0 5px 10px rgba(0,0,0,.2);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-align: center;
+      left: -25px;
+      top: 30px;
+      transform: rotate(45deg);
+      letter-spacing: 1px;
+    }
+    
+    .seal {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4), inset 0 2px 4px rgba(255,255,255,0.3);
+      position: relative;
+    }
+    
+    .seal::before {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border: 2px dashed rgba(255,255,255,0.5);
+      border-radius: 50%;
+    }
+    
+    .ornament {
+      position: absolute;
+      opacity: 0.15;
+    }
+    
+    .fade-in {
+      animation: fadeIn 1s ease-out forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full m-0 overflow-auto" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+  <div id="confetti-container"></div>
+  <div class="w-full min-h-full flex items-center justify-center p-8">
+   <div class="certificate-wrapper w-full max-w-3xl">
+    <div id="certificate" class="certificate relative rounded-lg overflow-hidden shadow-2xl"><!-- Golden Border -->
+     <div class="golden-border p-3"><!-- Inner Certificate -->
+      <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 p-8 md:p-12 relative overflow-hidden"><!-- Corner Ornaments -->
+       <svg class="ornament top-4 left-4 w-24 h-24" viewbox="0 0 100 100"><path d="M0,0 Q50,20 50,50 Q20,50 0,0" fill="#d4af37" /> <circle cx="15" cy="15" r="8" fill="#d4af37" /> <circle cx="8" cy="25" r="4" fill="#d4af37" /> <circle cx="25" cy="8" r="4" fill="#d4af37" />
+       </svg>
+       <svg class="ornament top-4 right-4 w-24 h-24 rotate-90" viewbox="0 0 100 100"><path d="M0,0 Q50,20 50,50 Q20,50 0,0" fill="#d4af37" /> <circle cx="15" cy="15" r="8" fill="#d4af37" /> <circle cx="8" cy="25" r="4" fill="#d4af37" /> <circle cx="25" cy="8" r="4" fill="#d4af37" />
+       </svg>
+       <svg class="ornament bottom-4 left-4 w-24 h-24 -rotate-90" viewbox="0 0 100 100"><path d="M0,0 Q50,20 50,50 Q20,50 0,0" fill="#d4af37" /> <circle cx="15" cy="15" r="8" fill="#d4af37" /> <circle cx="8" cy="25" r="4" fill="#d4af37" /> <circle cx="25" cy="8" r="4" fill="#d4af37" />
+       </svg>
+       <svg class="ornament bottom-4 right-4 w-24 h-24 rotate-180" viewbox="0 0 100 100"><path d="M0,0 Q50,20 50,50 Q20,50 0,0" fill="#d4af37" /> <circle cx="15" cy="15" r="8" fill="#d4af37" /> <circle cx="8" cy="25" r="4" fill="#d4af37" /> <circle cx="25" cy="8" r="4" fill="#d4af37" />
+       </svg><!-- Ribbon -->
+       <div class="ribbon"><span>2024</span>
+       </div><!-- Content -->
+       <div class="relative z-10 text-center"><!-- Header Flourish -->
+        <div class="flex justify-center mb-4">
+         <svg width="200" height="30" viewbox="0 0 200 30"><path d="M0,15 Q50,0 100,15 Q150,30 200,15" stroke="#d4af37" stroke-width="2" fill="none" /> <circle cx="100" cy="15" r="5" fill="#d4af37" /> <circle cx="70" cy="10" r="3" fill="#d4af37" /> <circle cx="130" cy="20" r="3" fill="#d4af37" />
+         </svg>
+        </div><!-- Title -->
+        <h1 id="certificate-title" class="text-3xl md:text-4xl font-bold text-amber-900 mb-2 fade-in" style="font-family: 'Playfair Display', serif; animation-delay: 0.2s;">Certificado de Felicitación</h1><!-- Subtitle -->
+        <p class="text-amber-700 text-lg mb-8 italic fade-in" style="font-family: 'Cormorant Garamond', serif; animation-delay: 0.4s;">Se otorga con orgullo a:</p><!-- Name -->
+        <div class="mb-8 fade-in" style="animation-delay: 0.6s;">
+         <h2 id="recipient-name" class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 bg-clip-text text-transparent" style="font-family: 'Playfair Display', serif;">Javier y Zaida</h2>
+         <div class="h-1 w-48 mx-auto mt-4 bg-gradient-to-r from-transparent via-amber-600 to-transparent rounded-full"></div>
+        </div><!-- Message -->
+        <div class="max-w-lg mx-auto mb-8 fade-in" style="animation-delay: 0.8s;">
+         <p id="main-message" class="text-xl text-amber-800 leading-relaxed" style="font-family: 'Cormorant Garamond', serif;">Por tu dedicación y esfuerzo incansable por conseguir un mejor futuro para ustedes y la familia durante el último año.</p>
+        </div><!-- Appreciation Text -->
+        <p class="text-amber-600 text-lg mb-8 fade-in" style="font-family: 'Cormorant Garamond', serif; font-style: italic; animation-delay: 1s;">¡Su compromiso y profesionalidad han sido fundamentales para nuestro crecimientos, no sé que habría pasado sin unos padres como ustedes, gracias!</p><!-- Seal and Signature Area -->
+        <div class="flex flex-col md:flex-row items-center justify-center gap-8 mt-10 fade-in" style="animation-delay: 1.2s;"><!-- Seal -->
+         <div class="seal"><span class="text-white text-xs font-bold text-center leading-tight" style="font-family: 'Playfair Display', serif;"> EXCELENCIA<br>
+           ★★★ </span>
+         </div><!-- From -->
+         <div class="text-center">
+          <p class="text-amber-600 text-sm mb-2">Con cariño y admiración,</p>
+          <p id="from-text" class="text-2xl font-semibold text-amber-800" style="font-family: 'Playfair Display', serif;">Fernando y Anahí</p>
+          <div class="h-0.5 w-32 mx-auto mt-2 bg-amber-400"></div>
+         </div>
+        </div><!-- Bottom Flourish -->
+        <div class="flex justify-center mt-8">
+         <svg width="150" height="25" viewbox="0 0 150 25"><path d="M0,12 Q37.5,25 75,12 Q112.5,0 150,12" stroke="#d4af37" stroke-width="2" fill="none" /> <circle cx="75" cy="12" r="4" fill="#d4af37" />
+         </svg>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Hover Instruction -->
+    <p class="text-center text-amber-200 mt-6 text-sm opacity-70">✨ Toquen solo el recuadro ✨</p>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      recipient_name: 'Javier y Zaida',
+      certificate_title: 'Certificado de Felicitación',
+      main_message: 'Por tu dedicación y esfuerzo incansable por conseguir un mejor futuro para ustedes y la familia durante el último año.',
+      from_text: 'Todo el equipo',
+      background_color: '#1a1a2e',
+      accent_color: '#d4af37',
+      text_color: '#78350f',
+      primary_action_color: '#c41e3a',
+      secondary_surface_color: '#fef3c7',
+      font_family: 'Playfair Display',
+      font_size: 16
+    };
+
+    // Confetti colors
+    const confettiColors = ['#d4af37', '#c41e3a', '#f9e077', '#8b0000', '#fbbf24', '#f59e0b', '#ef4444', '#22c55e', '#3b82f6', '#a855f7'];
+    const confettiShapes = ['square', 'circle', 'triangle', 'star'];
+    
+    // Create confetti element
+    function createConfetti(x, y, isExplosion = false) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      
+      const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      const shape = confettiShapes[Math.floor(Math.random() * confettiShapes.length)];
+      const size = Math.random() * 10 + 6;
+      
+      confetti.style.width = size + 'px';
+      confetti.style.height = size + 'px';
+      confetti.style.left = x + 'px';
+      confetti.style.top = y + 'px';
+      confetti.style.backgroundColor = color;
+      
+      if (shape === 'circle') {
+        confetti.style.borderRadius = '50%';
+      } else if (shape === 'triangle') {
+        confetti.style.backgroundColor = 'transparent';
+        confetti.style.borderLeft = size/2 + 'px solid transparent';
+        confetti.style.borderRight = size/2 + 'px solid transparent';
+        confetti.style.borderBottom = size + 'px solid ' + color;
+      } else if (shape === 'star') {
+        confetti.style.backgroundColor = 'transparent';
+        confetti.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${color}"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+      }
+      
+      if (isExplosion) {
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 200 + 100;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity - 100;
+        
+        confetti.style.setProperty('--tx', tx + 'px');
+        confetti.style.setProperty('--ty', ty + 'px');
+        confetti.classList.add('confetti-explosion');
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      } else {
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      }
+      
+      document.getElementById('confetti-container').appendChild(confetti);
+      
+      setTimeout(() => confetti.remove(), 4000);
+    }
+    
+    // Create explosion of confetti
+    function createExplosion(x, y, count = 50) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => createConfetti(x, y, true), i * 10);
+      }
+    }
+    
+    // Continuous confetti rain
+    function startConfettiRain() {
+      setInterval(() => {
+        const x = Math.random() * window.innerWidth;
+        createConfetti(x, -20, false);
+      }, 100);
+    }
+    
+    // Initial explosions
+    function initialExplosions() {
+      const positions = [
+        { x: window.innerWidth * 0.2, y: window.innerHeight * 0.3 },
+        { x: window.innerWidth * 0.8, y: window.innerHeight * 0.3 },
+        { x: window.innerWidth * 0.5, y: window.innerHeight * 0.2 },
+        { x: window.innerWidth * 0.3, y: window.innerHeight * 0.6 },
+        { x: window.innerWidth * 0.7, y: window.innerHeight * 0.6 }
+      ];
+      
+      positions.forEach((pos, i) => {
+        setTimeout(() => createExplosion(pos.x, pos.y, 80), i * 300);
+      });
+    }
+    
+    // Tilt effect
+    const certificate = document.getElementById('certificate');
+    
+    certificate.addEventListener('mousemove', (e) => {
+      const rect = certificate.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = (y - centerY) / 20;
+      const rotateY = (centerX - x) / 20;
+      
+      certificate.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    });
+    
+    certificate.addEventListener('mouseleave', () => {
+      certificate.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+    });
+    
+    // Click for more confetti
+    certificate.addEventListener('click', (e) => {
+      createExplosion(e.clientX, e.clientY, 100);
+    });
+    
+    // SDK initialization
+    async function onConfigChange(config) {
+      const recipientName = document.getElementById('recipient-name');
+      const certificateTitle = document.getElementById('certificate-title');
+      const mainMessage = document.getElementById('main-message');
+      const fromText = document.getElementById('from-text');
+      
+      if (recipientName) recipientName.textContent = config.recipient_name || defaultConfig.recipient_name;
+      if (certificateTitle) certificateTitle.textContent = config.certificate_title || defaultConfig.certificate_title;
+      if (mainMessage) mainMessage.textContent = config.main_message || defaultConfig.main_message;
+      if (fromText) fromText.textContent = config.from_text || defaultConfig.from_text;
+      
+      // Apply font
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      document.querySelectorAll('[style*="font-family"]').forEach(el => {
+        const currentFont = el.style.fontFamily;
+        if (currentFont.includes('Playfair')) {
+          el.style.fontFamily = `${fontFamily}, 'Playfair Display', serif`;
+        }
+      });
+      
+      // Apply colors
+      const bgColor = config.background_color || defaultConfig.background_color;
+      document.body.style.background = `linear-gradient(135deg, ${bgColor} 0%, ${adjustColor(bgColor, 20)} 50%, ${adjustColor(bgColor, 40)} 100%)`;
+    }
+    
+    function adjustColor(hex, amount) {
+      const num = parseInt(hex.replace('#', ''), 16);
+      const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+      const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+      const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+      return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+    }
+    
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => { config.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+          },
+          {
+            get: () => config.secondary_surface_color || defaultConfig.secondary_surface_color,
+            set: (value) => { config.secondary_surface_color = value; window.elementSdk.setConfig({ secondary_surface_color: value }); }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => { config.accent_color = value; window.elementSdk.setConfig({ accent_color: value }); }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => { config.primary_action_color = value; window.elementSdk.setConfig({ primary_action_color: value }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => { config.font_family = value; window.elementSdk.setConfig({ font_family: value }); }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => { config.font_size = value; window.elementSdk.setConfig({ font_size: value }); }
+        }
+      };
+    }
+    
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['recipient_name', config.recipient_name || defaultConfig.recipient_name],
+        ['certificate_title', config.certificate_title || defaultConfig.certificate_title],
+        ['main_message', config.main_message || defaultConfig.main_message],
+        ['from_text', config.from_text || defaultConfig.from_text]
+      ]);
+    }
+    
+    // Initialize
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+    
+    // Start effects
+    setTimeout(initialExplosions, 500);
+    setTimeout(startConfettiRain, 2000);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba9674ef64d6dfe',t:'MTc2Nzg1MTI4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
